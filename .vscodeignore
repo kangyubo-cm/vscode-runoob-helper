@@ -1,0 +1,7 @@
+dist/**
+.git/**
+.github/**
+.vscode/**
+*.vsix
+*.log
+**/.DS_Store
