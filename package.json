@@ -1,0 +1,156 @@
+{
+  "name": "runoob-helper",
+  "displayName": "菜鸟教程助手",
+  "description": "把菜鸟教程放进 VS Code 侧边栏，方便一边看教程一边练代码。",
+  "version": "0.0.2",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:runoobExplorer",
+    "onCommand:runoobHelper.openHome",
+    "onCommand:runoobHelper.openNavigation",
+    "onCommand:runoobHelper.openPlayground",
+    "onCommand:runoobHelper.pickTutorial",
+    "onCommand:runoobHelper.searchSelection",
+    "onCommand:runoobHelper.clearRecent",
+    "onCommand:runoobHelper.focusSidebar",
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "runoobHelper.openHome",
+        "title": "菜鸟教程: 打开首页"
+      },
+      {
+        "command": "runoobHelper.openNavigation",
+        "title": "菜鸟教程: 打开导航页"
+      },
+      {
+        "command": "runoobHelper.openPlayground",
+        "title": "菜鸟教程: 打开 HTML/CSS/JS 在线工具"
+      },
+      {
+        "command": "runoobHelper.pickTutorial",
+        "title": "菜鸟教程: 选择教程"
+      },
+      {
+        "command": "runoobHelper.searchSelection",
+        "title": "菜鸟教程: 搜索当前选中内容"
+      },
+      {
+        "command": "runoobHelper.openEntry",
+        "title": "菜鸟教程: 打开条目"
+      },
+      {
+        "command": "runoobHelper.copyLink",
+        "title": "菜鸟教程: 复制链接"
+      },
+      {
+        "command": "runoobHelper.clearRecent",
+        "title": "菜鸟教程: 清空最近打开"
+      },
+      {
+        "command": "runoobHelper.focusSidebar",
+        "title": "菜鸟教程: 打开侧边栏"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "runoobSidebar",
+          "title": "菜鸟教程",
+          "icon": "media/sidebar.svg"
+        }
+      ]
+    },
+    "views": {
+      "runoobSidebar": [
+        {
+          "id": "runoobExplorer",
+          "name": "菜鸟教程"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "runoobExplorer",
+        "contents": "从这里直接打开常用教程，也可以先执行 [选择教程](command:runoobHelper.pickTutorial)。"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "runoobHelper.pickTutorial",
+          "when": "view == runoobExplorer",
+          "group": "navigation@1"
+        },
+        {
+          "command": "runoobHelper.openHome",
+          "when": "view == runoobExplorer",
+          "group": "navigation@2"
+        },
+        {
+          "command": "runoobHelper.clearRecent",
+          "when": "view == runoobExplorer",
+          "group": "navigation@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "runoobHelper.focusSidebar",
+          "when": "true"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "runoobHelper.openEntry",
+          "when": "view == runoobExplorer && viewItem == runoobLink",
+          "group": "inline@1"
+        },
+        {
+          "command": "runoobHelper.copyLink",
+          "when": "view == runoobExplorer && viewItem == runoobLink",
+          "group": "inline@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Runoob Helper",
+      "properties": {
+        "runoobHelper.openMode": {
+          "type": "string",
+          "enum": [
+            "beside",
+            "active"
+          ],
+          "default": "beside",
+          "markdownDescription": "教程打开位置。`beside` 会在当前编辑器旁边打开，方便边看边写。"
+        },
+        "runoobHelper.preserveFocus": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "打开教程后是否保留代码编辑器焦点。"
+        },
+        "runoobHelper.recentLimit": {
+          "type": "number",
+          "default": 8,
+          "minimum": 3,
+          "maximum": 20,
+          "markdownDescription": "侧边栏中保留多少条最近打开记录。"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "check": "node --check extension.js"
+  }
+}
